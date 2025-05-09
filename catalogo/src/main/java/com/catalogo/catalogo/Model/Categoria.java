@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Categoria")
 @AllArgsConstructor
@@ -27,6 +29,7 @@ public class Categoria {
     private String descripcion;
 
     @OneToMany(mappedBy = "categoria")
+    @JsonIgnore //Esta notacion evita un bucle al usar metodos get
     private List<Producto> productos;
 
 }
