@@ -3,19 +3,25 @@ package com.catalogo.catalogo.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.catalogo.catalogo.Model.Producto;
+import com.catalogo.catalogo.Model.*;
+import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Service.ProductoService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/v1/producto")
 public class ProductoController {
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping("/buscarProductoId/{id}")
     public List<Producto> buscarPorId(@PathVariable Integer id){
@@ -32,6 +38,13 @@ public class ProductoController {
     @GetMapping("/mostrarProductos")
     public List<Producto> mostraProductos(){
         return productoService.mostrarProductos();
+    }
+
+    @PostMapping("/guardar")
+    public ResponseEntity<?> guardarProducto(@RequestBody Producto producto){
+        Producto productoGuardado = productoService.guardarProducto(producto);
+        productoGuardado.getCategoria().setDescripcion(categoriaRepository.getById(producto.getCategoria().getCategoriaId()).getDescripcion());
+        return ResponseEntity.ok(productoGuardado);
     }
 
 }

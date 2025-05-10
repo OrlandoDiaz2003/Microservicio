@@ -9,7 +9,7 @@ import com.catalogo.catalogo.Repository.CategoriaRepository;;
 public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
-
+    
     public List<Categoria> buscarCategoria(String descripcion){
         if(descripcion.isBlank()){
             throw new IllegalArgumentException("Debes ingresar una categoria para poder buscar");

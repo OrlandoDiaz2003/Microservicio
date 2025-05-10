@@ -47,5 +47,9 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+    public Producto guardarProducto(Producto producto){
+        return productoRepository.save(producto);
+    }
+
 
 }
