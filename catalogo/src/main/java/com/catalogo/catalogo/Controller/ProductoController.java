@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Service.ProductoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("api/v1/producto")
@@ -47,4 +49,22 @@ public class ProductoController {
         return ResponseEntity.ok(productoGuardado);
     }
 
+    @DeleteMapping("/eliminarPorId/{id}")
+    public ResponseEntity<?> eliminarProducto(@PathVariable int id){
+        if(id < 0){
+            return ResponseEntity.badRequest().body("Ingrese un id valido");
+        }
+        productoService.eliminarProducto(id);
+        return ResponseEntity.ok().body("Producto Eliminado");
+    }
+
+    @GetMapping("/masCaro")
+    public ResponseEntity<?> buscarPrecioDesc() {
+        return ResponseEntity.ok(productoService.buscarPrecioDesc());
+    }
+    
+    @GetMapping("/masBarato")
+    public ResponseEntity<?> buscarPrecioAsc() {
+        return ResponseEntity.ok(productoService.buscarPrecioAsc());
+    }
 }

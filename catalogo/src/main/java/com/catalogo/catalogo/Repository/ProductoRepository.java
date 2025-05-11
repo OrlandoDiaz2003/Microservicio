@@ -19,6 +19,14 @@ public interface ProductoRepository extends JpaRepository <Producto, Integer>{
     @Query("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%',:nombre,'%'))")
     List<Producto> findBynombre(String nombre);
 
+    //Ordenar de mas caro a mas barato
+    @Query("SELECT p FROM Producto p ORDER BY p.precio DESC")
+    List<Producto> buscarPrecioDesc();
+
+    //Ordenar de mas barato a mas caro
+    @Query("SELECT p FROM Producto p ORDER BY p.precio ASC")
+    List<Producto> buscarPrecioAsc();
+
 
 
 }

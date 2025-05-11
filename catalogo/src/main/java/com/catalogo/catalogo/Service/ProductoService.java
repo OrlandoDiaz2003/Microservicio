@@ -51,5 +51,17 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
+    public void eliminarProducto(int id){
+        productoRepository.deleteById(id);
+    }
+
+    public List<Producto> buscarPrecioDesc(){
+        return productoRepository.buscarPrecioDesc();
+    }
+
+    public List<Producto> buscarPrecioAsc(){
+        return productoRepository.buscarPrecioAsc();
+    }
+
 
 }
