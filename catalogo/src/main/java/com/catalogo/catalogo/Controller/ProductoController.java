@@ -1,4 +1,4 @@
-package com.catalogo.catalogo.Controller;
+package com.catalogo.catalogo.Controller;  
 
 import java.util.List;
 
@@ -26,17 +26,48 @@ public class ProductoController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping("/buscarProductoId/{id}")
-    public List<Producto> buscarPorId(@PathVariable Integer id){
-        return productoService.buscarPorId(id);
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
+        if(id < 0 || id == null){
+            return ResponseEntity.badRequest().body("Ingrese un id valido para realizar la busqueda");
+        }
+        
+        List<Producto> producto = productoService.buscarPorId(id);
+        
+        if (producto.isEmpty()){
+            return ResponseEntity.status(404).body("No se encontro un producto con este id");
+        }
+        return ResponseEntity.ok(producto);
     }
+    
     @GetMapping("/buscarProductoNombre/{nombre}")
-    public List<Producto> buscarPorNombre(@PathVariable String nombre){
-        return productoService.buscarProductoPorNombre(nombre);
+    public ResponseEntity<?> buscarPorNombre(@PathVariable String nombre){
+        if(nombre.isBlank()){
+            return ResponseEntity.badRequest().body("Ingrese un nombre valido");
+        }
+        List<Producto> productos = productoService.buscarProductoPorNombre(nombre);
+
+        if(productos.isEmpty()){
+            return ResponseEntity.status(404).body("No se han encontrado productos que coincidan con el nombre");
+        }
+
+        return ResponseEntity.ok(productos);
+        
     }
+
     @GetMapping("/buscarProductoPrecio/{minValue}/{maxValue}")
-    public List<Producto> buscarPorPrecio(@PathVariable double minValue, @PathVariable double maxValue){
-        return productoService.buscarRangoPrecio(minValue, maxValue);
+    public ResponseEntity<?>  buscarPorPrecio(@PathVariable double minValue, @PathVariable double maxValue){
+
+        if(minValue > maxValue){
+            return ResponseEntity.badRequest().body("El valor minimo no puede ser mayor");
+        }
+        if(minValue < 0 || maxValue < 0){
+            return ResponseEntity.badRequest().body("Sin ingresar numeros negativos");
+        }
+        List<Producto> productos =  productoService.buscarRangoPrecio(minValue, maxValue);
+
+        return ResponseEntity.ok(productos);
     }
+
     @GetMapping("/mostrarProductos")
     public List<Producto> mostraProductos(){
         return productoService.mostrarProductos();
