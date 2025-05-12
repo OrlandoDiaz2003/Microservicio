@@ -63,5 +63,8 @@ public class ProductoService {
         return productoRepository.buscarPrecioAsc();
     }
 
+    public List<Producto> buscarPorCategoria(String descripcion){
+        return productoRepository.findByCategoria(descripcion);
+    }
 
 }

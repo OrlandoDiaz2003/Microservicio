@@ -3,7 +3,6 @@ package com.catalogo.catalogo.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import com.catalogo.catalogo.Model.*;
 import java.util.List;
 
@@ -19,6 +18,10 @@ public interface ProductoRepository extends JpaRepository <Producto, Integer>{
     @Query("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%',:nombre,'%'))")
     List<Producto> findBynombre(String nombre);
 
+    //buscar por categoria
+    @Query("SElECT p FROM Producto p WHERE LOWER(p.categoria.descripcion) LIKE LOWER(CONCAT('%',:descripcion,'%'))")
+    List<Producto> findByCategoria(String descripcion);
+    
     //Ordenar de mas caro a mas barato
     @Query("SELECT p FROM Producto p ORDER BY p.precio DESC")
     List<Producto> buscarPrecioDesc();
@@ -26,6 +29,7 @@ public interface ProductoRepository extends JpaRepository <Producto, Integer>{
     //Ordenar de mas barato a mas caro
     @Query("SELECT p FROM Producto p ORDER BY p.precio ASC")
     List<Producto> buscarPrecioAsc();
+
 
 
 

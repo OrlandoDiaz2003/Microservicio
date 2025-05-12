@@ -1,7 +1,7 @@
 package com.catalogo.catalogo.Controller;  
 
 import java.util.List;
-
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +54,16 @@ public class ProductoController {
         
     }
 
+    public ResponseEntity<?> buscarPorCategoria(@PathVariable String categoria){
+        List<Producto> productos = productoService.buscarPorCategoria(categoria);
+
+        if(productos.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(productos);
+    }
+
     @GetMapping("/buscarProductoPrecio/{minValue}/{maxValue}")
     public ResponseEntity<?>  buscarPorPrecio(@PathVariable double minValue, @PathVariable double maxValue){
 
@@ -76,7 +86,14 @@ public class ProductoController {
     @PostMapping("/guardar")
     public ResponseEntity<?> guardarProducto(@RequestBody Producto producto){
         Producto productoGuardado = productoService.guardarProducto(producto);
-        productoGuardado.getCategoria().setDescripcion(categoriaRepository.getById(producto.getCategoria().getCategoriaId()).getDescripcion());
+
+        //se captura el id de la categoria a la que pertenece el producto
+        int categoriaId = productoGuardado.getCategoria().getCategoriaId();
+
+        Categoria categoria = categoriaRepository.getById(categoriaId);
+
+        //se ingresa la descripcion
+        productoGuardado.getCategoria().setDescripcion(categoria.getDescripcion());
         return ResponseEntity.ok(productoGuardado);
     }
 
