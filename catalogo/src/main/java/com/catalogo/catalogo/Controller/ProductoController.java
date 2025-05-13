@@ -1,7 +1,6 @@
 package com.catalogo.catalogo.Controller;  
 
 import java.util.List;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +24,23 @@ public class ProductoController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @GetMapping
+    public ResponseEntity<?> listarMetodos(){
+        List<String> metodos = List.of(
+            "GET    /api/v1/producto/buscarProductoId/{id}",
+            "GET    /api/v1/producto/buscarProductoNombre/{nombre}",
+            "GET    /api/v1/producto/buscarPorCategoria/{categoria}",
+            "GET    /api/v1/producto/mostrarProductos",
+            "POST   /api/v1/producto/guardar",
+            "DELETE /api/v1/producto/eliminarPorId/{id}",
+            "GET    /api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}",
+            "GET    /api/v1/producto/masCaro",
+            "GET    /api/v1/producto/masBarato"
+        );
+
+        return ResponseEntity.ok(metodos);
+        
+    }
     @GetMapping("/buscarProductoId/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
         if(id < 0 || id == null){
@@ -54,6 +70,7 @@ public class ProductoController {
         
     }
 
+    @GetMapping("/buscarPorCategoria/{categoria}")
     public ResponseEntity<?> buscarPorCategoria(@PathVariable String categoria){
         List<Producto> productos = productoService.buscarPorCategoria(categoria);
 
