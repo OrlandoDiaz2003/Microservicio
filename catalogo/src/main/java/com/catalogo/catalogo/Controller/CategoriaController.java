@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.catalogo.catalogo.Service.CategoriaService;
 
-import oracle.jdbc.proxy.annotation.Post;
-
 import java.util.List;
 import com.catalogo.catalogo.Model.Categoria;
 import com.catalogo.catalogo.Repository.CategoriaRepository;
@@ -54,7 +52,5 @@ public class CategoriaController {
     
         return ResponseEntity.ok(categoriaService.guardarCategoria(categoria));
     }
-    
-
 
 }
