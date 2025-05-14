@@ -3,11 +3,15 @@ package com.catalogo.catalogo.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Repository.ProductoRepository;
 
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.catalogo.catalogo.Model.*;
 
 @Service
@@ -16,6 +20,9 @@ public class ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     public List<Producto> buscarPorId(int id){
         if(id < 0){
@@ -47,8 +54,41 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
-    public Producto guardarProducto(Producto producto){
-        return productoRepository.save(producto);
+    public List<Producto> guardarProducto(List<Producto> productos){
+        
+        // for(Producto pro: productos){
+        //     int categoriaId = pro.getCategoria().getCategoriaId();
+            
+        //     Categoria categoria = categoriaRepository.getById(categoriaId);        
+
+        //     pro.getCategoria().setDescripcion(categoria.getDescripcion());
+        // }
+        // return productoRepository.saveAll(productos);
+
+        //#######################################
+
+        //Se crea una lista de id de categorias haciendo uso de un flujo(stream)
+        List<Integer> categoriaIds = productos.stream().map(producto -> producto.getCategoria().getCategoriaId()).distinct().toList();
+
+        List<Categoria> categorias = categoriaRepository.findAllById(categoriaIds);
+
+        if(categorias.size() != categoriaIds.size()){
+            throw new IllegalArgumentException("Algunas categorias no se encuentran en la base de datos");
+        }
+
+        // Se crea un mapa 
+        //el cual queda asi
+        // ID : categoria
+        Map<Integer, Categoria> categoriaMap = categorias.stream().collect(Collectors.toMap(Categoria::getCategoriaId, categoria -> categoria));
+
+        for(Producto pro:productos){
+            //se crea objeto de categoria para obtener la descripcion y asignarsela al producto
+            Categoria categoria  = categoriaMap.get(pro.getCategoria().getCategoriaId());
+
+            pro.getCategoria().setDescripcion(categoria.getDescripcion());
+        }
+
+        return productoRepository.saveAll(productos);
     }
 
     public void eliminarProducto(int id){

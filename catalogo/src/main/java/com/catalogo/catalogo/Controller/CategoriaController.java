@@ -29,7 +29,7 @@ public class CategoriaController {
     @GetMapping
     public ResponseEntity<?> metodos(){
         List<String> metodos = List.of(
-            "POST /api/v1/categoria/guardar/{categoria}",
+            "POST /api/v1/categoria/guardar",
             "GET api/v1/categoria/mostrarCategoria"
         );
 
@@ -48,9 +48,10 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<?>  guardarCategoria(@RequestBody Categoria categoria) {
-    
+    public ResponseEntity<?>  guardarCategoria(@RequestBody List<Categoria> categoria) {
         return ResponseEntity.ok(categoriaService.guardarCategoria(categoria));
+    
+        
     }
 
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.catalogo.catalogo.Model.*;
-import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Service.ProductoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductoController {
     @Autowired
     private ProductoService productoService;
-
-    @Autowired
-    private CategoriaRepository categoriaRepository;
 
     @GetMapping
     public ResponseEntity<?> listarMetodos(){
@@ -101,17 +97,10 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<?> guardarProducto(@RequestBody Producto producto){
-        Producto productoGuardado = productoService.guardarProducto(producto);
+    public ResponseEntity<?> guardarProducto(@RequestBody List<Producto> productos){
 
-        //se captura el id de la categoria a la que pertenece el producto
-        int categoriaId = productoGuardado.getCategoria().getCategoriaId();
+        return ResponseEntity.ok(productoService.guardarProducto(productos));
 
-        Categoria categoria = categoriaRepository.getById(categoriaId);
-
-        //se ingresa la descripcion
-        productoGuardado.getCategoria().setDescripcion(categoria.getDescripcion());
-        return ResponseEntity.ok(productoGuardado);
     }
 
     @DeleteMapping("/eliminarPorId/{id}")
