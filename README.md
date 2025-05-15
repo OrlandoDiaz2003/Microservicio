@@ -58,7 +58,7 @@ javac --version
 ``` 
 esto debería indicar que tienes la versión 21 de cada uno, si no es así tendrás que descargalos.
 
-para compilar el proyecto ejecutras el siguiente comando dentro del catálogo
+para compilar el proyecto ejecutas el siguiente comando dentro del catálogo
 
 Linux:
 ```
