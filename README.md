@@ -1,6 +1,6 @@
 # Microservicio Ecomarket para manejar producto
 
-Este microservicio se encarga de manipular los productos y sus categorias, tiene distintos metodos disponible para usar, usando el protocolo http.
+Este microservicio se encarga de manipular los productos y sus categorias, tiene distintos metodos disponibles que usan el protocolo http.
 
 ## Tecnologias usadas
 - [x] Java 21
