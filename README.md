@@ -4,12 +4,14 @@ Este microservicio se encarga de manipular los productos y sus categorias, tiene
 
 ## Tecnologias usadas
 - [x] Java 21
-- [x] Oracle SQL
 - [x] Maven 3.9.9
 - [x] Docker 27.5.1
+- [x] Oracle SQL
+
+La base de datos se configura en el `application.properties`
 
 ## Como correr el proyecto
-Dentro de la carpeta catalogo vas ejecutar el siguiente comando
+Dentro de la carpeta catalogo vas ejecutar el siguiente comando.
 
 Linux:
 ```
@@ -22,28 +24,29 @@ Windows:
 Con estos comandos podras poner en marcha el proyecto para probarlo
 
 ## Metodos disponibles
-Puedes ver todos los metodos de producto disponibles ingresando a: `http://localhost:8080/api/v1/producto`  
-Puedes ver todos los metodos de categoria disponibles ingresando a: `http://localhost:8080/api/v1/categoria`  
-
+URL base:  
+- Producto: `http://localhost:8080/api/v1/producto`  
+- Categoria: `http://localhost:8080/api/v1/categoria`
+  
 Lista completa de metodos de productos:  
-- GET    /api/v1/producto/buscarProductoNombre/{nombre} 
-- GET    /api/v1/producto/buscarProductoId/{id} 
-- GET    /api/v1/producto/buscarPorCategoria/{categoria}  
-- GET    /api/v1/producto/mostrarProductos  
-- GET    /api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue} 
-- GET    /api/v1/producto/masCaro  
-- GET    /api/v1/producto/masBarato  
-- DELETE /api/v1/producto/eliminarPorId/{id}  
-- POST   /api/v1/producto/guardar
+- GET    `/api/v1/producto/buscarProductoNombre/{nombre}`
+- GET    `/api/v1/producto/buscarProductoId/{id}`
+- GET    `/api/v1/producto/buscarPorCategoria/{categoria}`
+- GET    `/api/v1/producto/mostrarProductos`
+- GET    `/api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}`
+- GET    `/api/v1/producto/masCaro`
+- GET    `/api/v1/producto/masBarato` 
+- DELETE `/api/v1/producto/eliminarPorId/{id}`
+- POST   `/api/v1/producto/guardar`
 
 Lista completa de metodos de categoria:
 	
-- POST /api/v1/categoria/guardar
-- GET api/v1/categoria/mostrarCategoria
+- POST `/api/v1/categoria/guardar`
+- GET  `/api/v1/categoria/mostrarCategoria`
 
-la URL deberia verse de esta forma: `http://localhost:8080/api/v1/producto/mostrarProductos`
-## JSON para probar la api
-Aca copia estos ejemplos en postman usando los metodos correspondiente de guardar para producto y categoria  
+URL de ejemplo: `http://localhost:8080/api/v1/producto/mostrarProductos`
+## JSON para probar la API
+Puedes copiar estos ejemplos en postman usando los metodos guardar de producto y categoria.  
 
 Primero ingresamos categorias:
 ```
@@ -145,9 +148,9 @@ Ahora los productos:
 ]
 ```
 Listo ahora puedes probar los distintos metodos disponibles con estos productos de ejemplo
-## Como compilar el proyecto en docker
-Para compilar proyecto primero debes asegurar de tener las versiones correctas de java y javac
-para revisar esto puedes ejecutar los siguientes comandos en una terminal  
+## Como compilar el proyecto
+Antes de compilar el proyecto primero debes asegurarte de tener las versiones correctas de java y javac  
+para revisar esto puedes ejecutar los siguientes comandos en una terminal:
 
 Version de java
 ```Terminal
@@ -159,8 +162,8 @@ Version de javac
 javac --version
 ``` 
 Esto debería indicar que tienes la versión 21 de cada uno, si no es así tendrás que descargalos.
-
-Para compilar el proyecto ejecutas el siguiente comando dentro del catálogo
+### Compilacion
+Para compilar el proyecto ejecutas el siguiente comando dentro del catálogo.
 
 Linux:
 ```
@@ -171,33 +174,38 @@ Windows:
 ```
 .\mvnw clean package
 ```
+## Empaquetando el programa en docker
 Una vez compilado el proyecto podemos crear el docker, para esto tendremos iniciar docker,
-en windows se puede iniciar en docker desktop
+en windows se puede iniciar en docker desktop.
 
-en linux:
+En linux:
 ```
 systemctl start docker
 ```
 
 Ahora dentro del proyecto tenemos un archivo llamado `Dockerfile` el cual contiene las 
-especificaciones que le indican a docker como crear la imagen  
+especificaciones que le indican a docker como crear la imagen.  
+
+Tambien tendremos que cambiar el directorio de la wallet de oracle en el `application.properties`  
+en este caso sera `/wallet` ya que asi se guarda el directorio de la wallet en docker.  
+
 para comenzar con la creacion del docker ejecutamos el siguiente comando:
 ```
 docker build -t catalogo-app .
 ```
 Este comando creara la imagen del docker con nuestra aplicacion  
-Ahora para correr la aplicacion y ver si esta funciona podemos correr esta imagen de docker
+Ahora para correr la aplicacion y ver si esta funciona podemos correr esta imagen de docker.
 ```
 docker run -p 8080:8080 catalogo-app
 ```
 La app deberia comenzara correr en el puerto 8080 en localhost
 
-Ahora que tenemos ya la imagen de docker funcionando podemos guardarla de la siguiente forma
+Ahora que tenemos ya la imagen de docker funcionando podemos guardarla de la siguiente forma.
 ejecutaremos este comando:
 ```
 docker save -o catalogo-app.tar catalogo-app
 ```
-Y con esto deberiamos terminar con un archivo catalogo-app.tar dentro de nuestro proyecto  
+Y con esto deberiamos terminar con un archivo catalogo-app.tar dentro de nuestro proyecto. 
 
 Para usarlo tendremos que cargarlo en docker esto se puede hacer con:
 ```
@@ -207,7 +215,7 @@ Luego podemos comprobar si la cargo con:
 ```
 docker images
 ```
-Y por ultimo correr esta imagen
+Y por ultimo correr esta imagen.
 ```
 docker run -d --name catalogo-app -p 8080:8080 catalogo-app
 ```
