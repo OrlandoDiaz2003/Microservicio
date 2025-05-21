@@ -8,6 +8,7 @@ import com.catalogo.catalogo.Repository.ProductoRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -55,13 +56,13 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+    // Guardar productos
     public List<Producto> guardarProducto(List<Producto> productos) {
 
-        boolean hayId = productos.stream().anyMatch(producto -> producto.getProductoId() != 0);
+        List<String> nombresBD = productoRepository.findAll().stream().map(producto -> producto.getNombre()).toList();
 
-        if(hayId){
-            return Collections.emptyList();
-        }
+        List<Producto> productoValido = new ArrayList<>();
+
         // Se crea una lista de id de categorias haciendo uso de un flujo(stream)
         List<Integer> categoriaIds = productos.stream().map(producto -> producto.getCategoria().getCategoriaId())
                 .distinct().toList();
@@ -76,14 +77,28 @@ public class ProductoService {
                 .collect(Collectors.toMap(Categoria::getCategoriaId, categoria -> categoria));
 
         for (Producto pro : productos) {
-            // se crea objeto de categoria para obtener la descripcion y asignarsela al
-            // producto
+
+            if (pro.getProductoId() != 0) {
+                continue;
+            }
+
+            boolean nombreExiste = nombresBD.stream().anyMatch(nombreBD -> nombreBD.equalsIgnoreCase(pro.getNombre()));
+            if (nombreExiste) {
+                continue;
+            }
+
+            if (pro.getCategoria() == null) {
+                continue;
+            }
             Categoria categoria = categoriaMap.get(pro.getCategoria().getCategoriaId());
 
             pro.getCategoria().setDescripcion(categoria.getDescripcion());
+
+            productoValido.add(pro);
+
         }
 
-        return productoRepository.saveAll(productos);
+        return productoRepository.saveAll(productoValido);
     }
 
     public void eliminarProducto(int id) {
