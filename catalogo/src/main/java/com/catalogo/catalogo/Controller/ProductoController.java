@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.catalogo.catalogo.Model.*;
-import com.catalogo.catalogo.Repository.ProductoRepository;
 import com.catalogo.catalogo.Service.ProductoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductoController {
     @Autowired
     private ProductoService productoService;
-
-    @Autowired
-    private ProductoRepository productoRepository;
 
     @GetMapping
     public ResponseEntity<?> listarMetodos() {
@@ -103,8 +99,9 @@ public class ProductoController {
     public ResponseEntity<?> guardarProducto(@RequestBody List<Producto> productos) {
         List<Producto> productoRecibidos = productoService.guardarProducto(productos);
 
-        if(productoRecibidos.isEmpty()){
-            return ResponseEntity.badRequest().body("El id de los productos se ingresa automaticamente elimina este parametro");
+        if (productoRecibidos.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("El id de los productos se ingresa automaticamente elimina este parametro");
         }
         return ResponseEntity.ok(productoRecibidos);
 
