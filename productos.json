@@ -1,0 +1,84 @@
+[
+	{
+		"nombre": "Carne Vegana",
+		"stock": 10,
+		"precio": 2000.0,
+		"categoria":{
+			"categoriaId": 1
+		}
+	},
+	{
+		"nombre": "Pollo Vegano",
+		"stock": 15,
+		"precio": 1500.0,
+		"categoria":{
+			"categoriaId": 1
+		}
+	},
+	{
+		"nombre": "Zanahoria del campo",
+		"stock": 5,
+		"precio": 500.0,
+		"categoria":{
+			"categoriaId": 1
+		}
+	},
+	{
+		"nombre": "Caracoles naturales",
+		"stock": 50,
+		"precio": 100.0,
+		"categoria":{
+			"categoriaId": 1
+		}
+	},
+	{
+		"nombre": "Thinkpad T480",
+		"stock": 50,
+		"precio": 267000.0,
+		"categoria":{
+			"categoriaId": 2
+		}
+	},
+	{
+		"nombre": "Thinkpad x201",
+		"stock": 50,
+		"precio": 167000.0,
+		"categoria":{
+			"categoriaId": 2
+		}
+	},
+	{
+		"nombre": "Thinkpad T41",
+		"stock": 50,
+		"precio": 567000.0,
+		"categoria":{
+			"categoriaId": 2
+		}
+	},
+ 	{
+		"nombre": "Escoba de madera",
+		"stock": 50,
+		"precio": 3000.0,
+		"categoria":{
+			"categoriaId": 3
+		}
+	},
+ 	{
+		"nombre": "Escoba de plastico",
+		"stock": 50,
+		"precio": 1500.0,
+		"categoria":{
+			"categoriaId": 3
+		}
+	},
+	{
+		"nombre": "Jabon",
+		"stock": 50,
+		"precio": 500.0,
+		"categoria":{
+			"categoriaId": 3
+		}
+	}
+
+]
+
