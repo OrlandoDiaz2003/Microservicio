@@ -9,9 +9,9 @@ import com.catalogo.catalogo.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.catalogo.catalogo.Model.*;
@@ -26,6 +26,28 @@ public class ProductoService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    // Actualizar producto
+    public Producto actualizarProducto(int id, Map<String, Object> datos) {
+        Optional<Producto> productoOp = productoRepository.findById(id);
+        Producto producto = productoOp.orElseThrow(() -> new IllegalArgumentException("producto no encontrado"));
+
+        if (datos.containsKey("stock")) {
+            producto.setStock((Integer) datos.get("stock"));
+        }
+
+        if (datos.containsKey("precio")) {
+            producto.setPrecio((double) datos.get("precio"));
+        }
+
+        if (datos.containsKey("nombre")) {
+            producto.setNombre((String) datos.get("nombre"));
+        }
+
+        productoRepository.save(producto);
+        return producto;
+    }
+
+    // Buscar por id
     public List<Producto> buscarPorId(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("Ingrese un ID valido para realizar la busqueda");
@@ -33,6 +55,7 @@ public class ProductoService {
         return productoRepository.findByProductoId(id);
     }
 
+    // buscar por nombre
     public List<Producto> buscarProductoPorNombre(String nombre) {
         if (nombre.isBlank()) {
             throw new IllegalArgumentException("Debes ingresar un nombre para poder realizar la busqueda");
@@ -40,6 +63,7 @@ public class ProductoService {
         return productoRepository.findBynombre(nombre);
     }
 
+    // buscar por rango de precio
     public List<Producto> buscarRangoPrecio(double minValue, double maxValue) {
         if (minValue > maxValue) {
             throw new IllegalArgumentException("El valor minimo no puede ser mayor al valor maximo");
@@ -52,6 +76,7 @@ public class ProductoService {
         return productoRepository.findByRangoPrecio(minValue, maxValue);
     }
 
+    // mostrar todos los productos
     public List<Producto> mostrarProductos() {
         return productoRepository.findAll();
     }
@@ -63,7 +88,6 @@ public class ProductoService {
 
         List<Producto> productoValido = new ArrayList<>();
 
-        // Se crea una lista de id de categorias haciendo uso de un flujo(stream)
         List<Integer> categoriaIds = productos.stream().map(producto -> producto.getCategoria().getCategoriaId())
                 .distinct().toList();
 
@@ -101,18 +125,22 @@ public class ProductoService {
         return productoRepository.saveAll(productoValido);
     }
 
+    // Eliminar productos
     public void eliminarProducto(int id) {
         productoRepository.deleteById(id);
     }
 
+    // Buscar por precio Desc
     public List<Producto> buscarPrecioDesc() {
         return productoRepository.buscarPrecioDesc();
     }
 
+    // buscar por precio Asc
     public List<Producto> buscarPrecioAsc() {
         return productoRepository.buscarPrecioAsc();
     }
 
+    // buscar por categoria
     public List<Producto> buscarPorCategoria(String descripcion) {
         return productoRepository.findByCategoria(descripcion);
     }

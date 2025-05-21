@@ -1,6 +1,8 @@
 package com.catalogo.catalogo.Controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import com.catalogo.catalogo.Model.*;
 import com.catalogo.catalogo.Service.ProductoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("api/v1/producto")
@@ -26,11 +29,12 @@ public class ProductoController {
                 "GET    /api/v1/producto/buscarProductoNombre/{nombre}",
                 "GET    /api/v1/producto/buscarPorCategoria/{categoria}",
                 "GET    /api/v1/producto/mostrarProductos",
-                "POST   /api/v1/producto/guardar",
-                "DELETE /api/v1/producto/eliminarPorId/{id}",
-                "GET    /api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}",
                 "GET    /api/v1/producto/masCaro",
-                "GET    /api/v1/producto/masBarato");
+                "GET    /api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}",
+                "GET    /api/v1/producto/masBarato",
+                "POST   /api/v1/producto/guardar",
+                "PUT    /api/v1/producto/modificar/{id}",
+                "DELETE /api/v1/producto/eliminarPorId/{id}");
 
         return ResponseEntity.ok(metodos);
 
@@ -62,6 +66,19 @@ public class ProductoController {
         }
 
         return ResponseEntity.ok(productos);
+
+    }
+
+    @PutMapping("modificar/{id}")
+    public ResponseEntity<?> modificarProducto(@PathVariable Integer id, @RequestBody Map<String, Object> datos) {
+
+        Producto producto = productoService.actualizarProducto(id, datos);
+
+        if (producto == null) {
+            return ResponseEntity.badRequest().body("Error no se pudo modificar el producto");
+        }
+
+        return ResponseEntity.ok(producto);
 
     }
 
