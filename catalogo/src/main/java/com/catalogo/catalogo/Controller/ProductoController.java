@@ -118,10 +118,9 @@ public class ProductoController {
 
         if (productoRecibidos.isEmpty()) {
             return ResponseEntity.badRequest()
-                    .body("El id de los productos se ingresa automaticamente elimina este parametro");
+                    .body("Guardar fallo, para evitar fallos no ingrese el id del producto y no use un nombre ya existente");
         }
         return ResponseEntity.ok(productoRecibidos);
-
     }
 
     @DeleteMapping("/eliminarPorId/{id}")
