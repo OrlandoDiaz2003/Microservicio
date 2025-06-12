@@ -15,7 +15,7 @@ import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Service.ProductoService;
 
 import net.datafaker.Faker;
-@Profile("dev")
+@Profile("test")
 @Component
 public class DataLoader implements CommandLineRunner{
 
