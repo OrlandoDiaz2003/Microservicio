@@ -14,6 +14,8 @@ import com.catalogo.catalogo.Model.Producto;
 import com.catalogo.catalogo.Repository.CategoriaRepository;
 import com.catalogo.catalogo.Service.ProductoService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import net.datafaker.Faker;
 @Profile("test")
 @Component
@@ -25,7 +27,10 @@ public class DataLoader implements CommandLineRunner{
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Autowired
+    private EntityManager entityManager;
     @Override
+    @Transactional
     public void run(String... args) throws Exception{
         Faker faker = new Faker();
         Random random = new Random();    
@@ -51,7 +56,7 @@ public class DataLoader implements CommandLineRunner{
         listaCategoria.add(nuevCategoria2);
         listaCategoria.add(nuevCategoria3);
         //agregar productos
-        for(int i = 0; i < 1000; i ++){
+        for(int i = 0; i < 100000; i ++){
             Producto nuevoProducto = new Producto();
 
             //capturando datos
@@ -72,8 +77,15 @@ public class DataLoader implements CommandLineRunner{
             nuevoProducto.setStock(stock);
             nuevoProducto.setCategoria(categoriaRandom);
 
-           listaProducto.add(nuevoProducto);
+            entityManager.persist(nuevoProducto);
+
+            if(i > 0 && i % 10000 == 0){
+                entityManager.flush();
+                entityManager.clear();
+            }
         }
+        entityManager.flush();
+        
         productoService.guardarProducto(listaProducto);
     }
 
