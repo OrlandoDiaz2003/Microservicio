@@ -33,9 +33,6 @@ Lista completa de metodos de productos:
 - GET    `/api/v1/producto/buscarProductoId/{id}`
 - GET    `/api/v1/producto/buscarPorCategoria/{categoria}`
 - GET    `/api/v1/producto/mostrarProductos`
-- GET    `/api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}`
-- GET    `/api/v1/producto/masCaro`
-- GET    `/api/v1/producto/masBarato`
 - PUT    `/api/v1/producto/modificar/{id}`
 - DELETE `/api/v1/producto/eliminarPorId/{id}`
 - POST   `/api/v1/producto/guardar`
