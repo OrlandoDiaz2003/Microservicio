@@ -56,30 +56,23 @@ public class DataLoader implements CommandLineRunner{
         listaCategoria.add(nuevCategoria2);
         listaCategoria.add(nuevCategoria3);
         //agregar productos
-        for(int i = 0; i < 100000; i ++){
+        for(int i = 0; i < 1000; i ++){
             Producto nuevoProducto = new Producto();
-
-            //capturando datos
-            //precio 
-            double precio = Double.parseDouble(faker.commerce().price());
-            
-            //stock
-            int stock = faker.number().numberBetween(1, 100);
+            //Capturando datos
 
             //nombre
             String nombre = faker.commerce().productName();
 
             //categoria 
             Categoria categoriaRandom = listaCategoria.get(random.nextInt(listaCategoria.size()));
+            
             //asignando valores
             nuevoProducto.setNombre(nombre);
-            nuevoProducto.setPrecio(precio);
-            nuevoProducto.setStock(stock);
             nuevoProducto.setCategoria(categoriaRandom);
 
             entityManager.persist(nuevoProducto);
 
-            if(i > 0 && i % 10000 == 0){
+            if(i > 0 && i % 1000 == 0){
                 entityManager.flush();
                 entityManager.clear();
             }

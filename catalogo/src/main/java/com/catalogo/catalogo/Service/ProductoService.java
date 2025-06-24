@@ -31,14 +31,6 @@ public class ProductoService {
         Optional<Producto> productoOp = productoRepository.findById(id);
         Producto producto = productoOp.orElseThrow(() -> new IllegalArgumentException("producto no encontrado"));
 
-        if (datos.containsKey("stock")) {
-            producto.setStock((Integer) datos.get("stock"));
-        }
-
-        if (datos.containsKey("precio")) {
-            producto.setPrecio((double) datos.get("precio"));
-        }
-
         if (datos.containsKey("nombre")) {
             producto.setNombre((String) datos.get("nombre"));
         }
@@ -54,6 +46,11 @@ public class ProductoService {
         }
         return productoRepository.findByProductoId(id);
     }
+    //buscar productos por id
+    public List<Producto> buscaProductos(List<Integer> ids){
+        List<Producto> productos = productoRepository.findAllById(ids);
+        return productos;
+    }
 
     // buscar por nombre
     public List<Producto> buscarProductoPorNombre(String nombre) {
@@ -61,19 +58,6 @@ public class ProductoService {
             throw new IllegalArgumentException("Debes ingresar un nombre para poder realizar la busqueda");
         }
         return productoRepository.findBynombre(nombre);
-    }
-
-    // buscar por rango de precio
-    public List<Producto> buscarRangoPrecio(double minValue, double maxValue) {
-        if (minValue > maxValue) {
-            throw new IllegalArgumentException("El valor minimo no puede ser mayor al valor maximo");
-        }
-
-        if (minValue < 0 || maxValue < 0) {
-            throw new IllegalArgumentException("Los valores de los precios no pueden ser negativos");
-        }
-
-        return productoRepository.findByRangoPrecio(minValue, maxValue);
     }
 
     // mostrar todos los productos
@@ -128,16 +112,6 @@ public class ProductoService {
     // Eliminar productos
     public void eliminarProducto(int id) {
         productoRepository.deleteById(id);
-    }
-
-    // Buscar por precio Desc
-    public List<Producto> buscarPrecioDesc() {
-        return productoRepository.buscarPrecioDesc();
-    }
-
-    // buscar por precio Asc
-    public List<Producto> buscarPrecioAsc() {
-        return productoRepository.buscarPrecioAsc();
     }
 
     // buscar por categoria

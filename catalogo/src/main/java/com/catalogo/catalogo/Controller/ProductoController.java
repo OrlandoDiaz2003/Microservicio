@@ -93,20 +93,6 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
-    @GetMapping("/buscarProductoPrecio/{minValue}/{maxValue}")
-    public ResponseEntity<?> buscarPorPrecio(@PathVariable double minValue, @PathVariable double maxValue) {
-
-        if (minValue > maxValue) {
-            return ResponseEntity.badRequest().body("El valor minimo no puede ser mayor");
-        }
-        if (minValue < 0 || maxValue < 0) {
-            return ResponseEntity.badRequest().body("Sin ingresar numeros negativos");
-        }
-        List<Producto> productos = productoService.buscarRangoPrecio(minValue, maxValue);
-
-        return ResponseEntity.ok(productos);
-    }
-
     @GetMapping("/mostrarProductos")
     public List<Producto> mostraProductos() {
         return productoService.mostrarProductos();
@@ -132,13 +118,10 @@ public class ProductoController {
         return ResponseEntity.ok().body("Producto Eliminado");
     }
 
-    @GetMapping("/masCaro")
-    public ResponseEntity<?> buscarPrecioDesc() {
-        return ResponseEntity.ok(productoService.buscarPrecioDesc());
-    }
+    @PostMapping("buscarProductos")
+    public ResponseEntity<?> buscarProductos(@RequestBody List<Integer> ids){
+        List<Producto> productos = productoService.buscaProductos(ids);
 
-    @GetMapping("/masBarato")
-    public ResponseEntity<?> buscarPrecioAsc() {
-        return ResponseEntity.ok(productoService.buscarPrecioAsc());
+        return ResponseEntity.ok(productos);
     }
 }

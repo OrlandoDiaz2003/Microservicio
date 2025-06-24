@@ -27,7 +27,7 @@ public class Producto {
         table = "sequence_table",
         pkColumnName = "sequence_name",
         valueColumnName = "next_val",
-        allocationSize = 10000
+        allocationSize = 1000
     )
     
     @Column(name = "Producto_id")
@@ -35,12 +35,6 @@ public class Producto {
 
     @Column(nullable = false)
     private String nombre;
-
-    @Column(nullable = false)
-    private int stock;
-
-    @Column(nullable = false)
-    private double precio;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
