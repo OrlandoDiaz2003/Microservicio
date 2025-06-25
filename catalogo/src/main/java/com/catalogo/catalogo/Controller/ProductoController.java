@@ -124,4 +124,9 @@ public class ProductoController {
 
         return ResponseEntity.ok(productos);
     }
+
+    @GetMapping("/productoDisponible")
+    public ResponseEntity<List<Integer>> productoDisponible(){
+        return productoService.productoDisponible();
+    }
 }

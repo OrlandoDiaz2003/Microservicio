@@ -1,6 +1,7 @@
 package com.catalogo.catalogo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.catalogo.catalogo.Repository.CategoriaRepository;
@@ -119,4 +120,14 @@ public class ProductoService {
         return productoRepository.findByCategoria(descripcion);
     }
 
+    //metodo para devolver una lista de todos id de los productos
+    public ResponseEntity<List<Integer>> productoDisponible(){
+        List<Integer> ids = productoRepository.findAll().stream().map(producto -> producto.getProductoId()).toList();
+
+        if(ids.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(ids);
+    }
 }
