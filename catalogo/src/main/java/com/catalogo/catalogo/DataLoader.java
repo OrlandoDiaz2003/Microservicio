@@ -29,6 +29,7 @@ public class DataLoader implements CommandLineRunner{
 
     @Autowired
     private EntityManager entityManager;
+
     @Override
     @Transactional
     public void run(String... args) throws Exception{
@@ -56,7 +57,7 @@ public class DataLoader implements CommandLineRunner{
         listaCategoria.add(nuevCategoria2);
         listaCategoria.add(nuevCategoria3);
         //agregar productos
-        for(int i = 0; i < 1000; i ++){
+        for(int i = 0; i < 20; i ++){
             Producto nuevoProducto = new Producto();
             //Capturando datos
 
