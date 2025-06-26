@@ -29,9 +29,6 @@ public class ProductoController {
                 "GET    /api/v1/producto/buscarProductoNombre/{nombre}",
                 "GET    /api/v1/producto/buscarPorCategoria/{categoria}",
                 "GET    /api/v1/producto/mostrarProductos",
-                "GET    /api/v1/producto/masCaro",
-                "GET    /api/v1/producto/buscarProductoPrecio/{minValue}/{maxValue}",
-                "GET    /api/v1/producto/masBarato",
                 "POST   /api/v1/producto/guardar",
                 "PUT    /api/v1/producto/modificar/{id}",
                 "DELETE /api/v1/producto/eliminarPorId/{id}");
@@ -46,9 +43,9 @@ public class ProductoController {
             return ResponseEntity.badRequest().body("Ingrese un id valido para realizar la busqueda");
         }
 
-        List<Producto> producto = productoService.buscarPorId(id);
+        Producto producto = productoService.buscarPorId(id);
 
-        if (producto.isEmpty()) {
+        if (producto == null) {
             return ResponseEntity.status(404).body("No se encontro un producto con este id");
         }
         return ResponseEntity.ok(producto);
@@ -129,4 +126,5 @@ public class ProductoController {
     public ResponseEntity<List<Integer>> productoDisponible(){
         return productoService.productoDisponible();
     }
+
 }

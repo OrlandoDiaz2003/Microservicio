@@ -41,7 +41,7 @@ public class ProductoService {
     }
 
     // Buscar por id
-    public List<Producto> buscarPorId(int id) {
+    public Producto buscarPorId(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("Ingrese un ID valido para realizar la busqueda");
         }

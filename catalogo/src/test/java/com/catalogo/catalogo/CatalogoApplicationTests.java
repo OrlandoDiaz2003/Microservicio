@@ -9,5 +9,4 @@ class CatalogoApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

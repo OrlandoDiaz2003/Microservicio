@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductoRepository extends JpaRepository <Producto, Integer>{
     //Buscar producto por id
-    List<Producto> findByProductoId(int productoId);
+    Producto findByProductoId(int productoId);
 
     //Buscar producto nombre
     @Query("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%',:nombre,'%'))")
