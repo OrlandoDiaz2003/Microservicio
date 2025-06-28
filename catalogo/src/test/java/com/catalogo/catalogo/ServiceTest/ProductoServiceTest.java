@@ -55,4 +55,19 @@ public class ProductoServiceTest {
         assertFalse(productos.isEmpty(), "La lista de producto no deberia ser vacia");
     }
 
+    @Test
+    void buscarPorCategoria(){
+        String categoriaAseo= "aseo";
+        String categoriaAlimento= "alimento";
+        String categoriaElectronico= "electronico";
+
+        List<Producto> productosAseo = productoService.buscarPorCategoria(categoriaAseo);
+        List<Producto> productoAlimento = productoService.buscarPorCategoria(categoriaAlimento);
+        List<Producto> productoElectronico = productoService.buscarPorCategoria(categoriaElectronico);
+
+        assertFalse(productosAseo.isEmpty(), "La lista no deberia estar vacia");
+        assertFalse(productoAlimento.isEmpty(), "La lista no deberia estar vacia");
+        assertFalse(productoElectronico.isEmpty(), "La lista no deberia estar vacia");
+    }
+
 }

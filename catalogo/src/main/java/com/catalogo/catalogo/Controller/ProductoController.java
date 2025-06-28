@@ -66,7 +66,7 @@ public class ProductoController {
 
     }
 
-    @PutMapping("modificar/{id}")
+@PutMapping("modificar/{id}")
     public ResponseEntity<?> modificarProducto(@PathVariable Integer id, @RequestBody Map<String, Object> datos) {
 
         Producto producto = productoService.actualizarProducto(id, datos);
