@@ -26,7 +26,7 @@ public class ProductoControllerV2 {
 
     @Autowired
     ProductoService productoService;
-
+    
     @Autowired
     ProductoModelAssembler assembler;
 
@@ -34,35 +34,38 @@ public class ProductoControllerV2 {
     ProductoRepository productoRepository;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public CollectionModel<EntityModel<Producto>> getAll(){
-        List<EntityModel<Producto>> productos = productoRepository.findAll().stream().map(assembler::toModel).collect(Collectors.toList());
+    public CollectionModel<EntityModel<Producto>> getAll() {
+        List<EntityModel<Producto>> productos = productoRepository.findAll().stream().map(assembler::toModel)
+                .collect(Collectors.toList());
 
         return CollectionModel.of(productos,
-        linkTo(methodOn(ProductoControllerV2.class).getAll()).withSelfRel());
-    } 
-   
+                linkTo(methodOn(ProductoControllerV2.class).getAll()).withSelfRel());
+    }
+
     @GetMapping(value = "/buscarPorid/{id}", produces = MediaTypes.HAL_JSON_VALUE)
-    public EntityModel<Producto> getById(@PathVariable int id){
-            Producto producto = productoService.buscarPorId(id);
+    public EntityModel<Producto> getById(@PathVariable int id) {
+        Producto producto = productoService.buscarPorId(id);
 
-            EntityModel<Producto> productoModel = assembler.toModel(producto);
+        EntityModel<Producto> productoModel = assembler.toModel(producto);
 
-            return productoModel;
+        return productoModel;
     }
 
     @GetMapping(value = "/buscarProductoNombre/{nombre}", produces = MediaTypes.HAL_JSON_VALUE)
-    public CollectionModel<EntityModel<Producto>> getByName(@PathVariable String nombre){
+    public CollectionModel<EntityModel<Producto>> getByName(@PathVariable String nombre) {
         List<EntityModel<Producto>> productos = productoService.buscarProductoPorNombre(nombre).stream()
-        .map(assembler::toModel).collect(Collectors.toList());
+                .map(assembler::toModel).collect(Collectors.toList());
 
-        return CollectionModel.of(productos,linkTo(methodOn(ProductoControllerV2.class).getByName(nombre)).withSelfRel());
+        return CollectionModel.of(productos,
+                linkTo(methodOn(ProductoControllerV2.class).getByName(nombre)).withSelfRel());
     }
 
     @GetMapping(value = "/buscarPorCategoria/{categoria}", produces = MediaTypes.HAL_JSON_VALUE)
-    public CollectionModel<EntityModel<Producto>> getByCategory(@PathVariable String categoria){
+    public CollectionModel<EntityModel<Producto>> getByCategory(@PathVariable String categoria) {
         List<EntityModel<Producto>> productos = productoService.buscarPorCategoria(categoria).stream()
-        .map(assembler::toModel).collect(Collectors.toList());
+                .map(assembler::toModel).collect(Collectors.toList());
 
-        return CollectionModel.of(productos,linkTo(methodOn(ProductoControllerV2.class).getByCategory(categoria)).withSelfRel());
+        return CollectionModel.of(productos,
+                linkTo(methodOn(ProductoControllerV2.class).getByCategory(categoria)).withSelfRel());
     }
 }
