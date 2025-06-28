@@ -14,13 +14,12 @@ import com.catalogo.catalogo.Model.Producto;
 public class ProductoModelAssembler implements RepresentationModelAssembler<Producto, EntityModel<Producto>>{
 
     @Override
-    public EntityModel<Producto> toModel(Producto producto) {
-        return EntityModel.of(producto,
-                linkTo(methodOn(ProductoControllerV2.class).getAll()).withRel("productos"),
-                linkTo(methodOn(ProductoControllerV2.class).getById(producto.getProductoId())).withSelfRel(),
-                linkTo(methodOn(ProductoControllerV2.class).getByName(producto.getNombre())).withSelfRel(),
-                linkTo(methodOn(ProductoControllerV2.class).getByCategory(producto.getCategoria().getDescripcion())).withSelfRel());
-
+    public EntityModel<Producto> toModel (Producto producto){
+        return EntityModel.of(producto, 
+        linkTo(methodOn(ProductoControllerV2.class).mostrarProductos()).withRel("productos"),
+        linkTo(methodOn(ProductoControllerV2.class).buscarPorId(producto.getProductoId())).withSelfRel(),
+        linkTo(methodOn(ProductoControllerV2.class).buscarPorNombre(producto.getNombre())).withSelfRel(),
+        linkTo(methodOn(ProductoControllerV2.class).buscarPorCategoria(producto.getCategoria().getDescripcion())).withSelfRel());
     }
 
 }
