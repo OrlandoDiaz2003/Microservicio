@@ -1,8 +1,6 @@
-sudo apt update & sudo apt upgrade
+#sudo apt update && sudo apt upgrade -y
 
-sudo apt install docker.io docker-compose
-
-PROJECT_DIR="/home/ubuntu/Microservicio/catalogo"
+#sudo apt install docker.io docker-compose -y
 
  # Colores para los mensajes
  GREEN='\033[0;32m'
@@ -12,16 +10,16 @@ PROJECT_DIR="/home/ubuntu/Microservicio/catalogo"
  echo -e "${YELLOW} ELIMINANDO MAQUINAS DOCKER ANTERIORES"
  echo ""
 
-docker-compose down
+sudo docker-compose down
 
-echo -e "${GREEN} MAQUINA DETINADA"
+echo -e "${GREEN} MAQUINA DETENIDA"
 echo ""
 
 
-echo -e "${YELLO} LEVANTANDO BASE DE DATOS"
+echo -e "${YELLOW} LEVANTANDO BASE DE DATOS"
 echo ""
 
-docker-compose -f "docker-compose.yml" up --build -d "mysql-db"
+sudo docker-compose -f "docker-compose.yml" up --build -d "mysql-db"
 
 if [ $? -ne 0 ]; then
     echo -e "\033[0;31mError: Fallo al levantar la base de datos. Revisa los logs con 'docker compose logs'${NC}"
@@ -37,11 +35,13 @@ sleep 3
 echo -e "${YELLOW} LEVANTANDO CATALOGO APP"
 echo ""
 
-docker-compose -f "docker-compose.yml" up --build -d "catalog-app"
+sudo docker-compose -f "docker-compose.yml" up --build -d "catalogo-app"
 
 if [ $? -ne 0 ]; then
     echo -e "\033[0;31mError: Fallo al levantar catalogo app. Revisa los logs con 'docker compose logs'${NC}"
     exit 1
 fi
 
+echo -e "${GREEN} CATALOGO APP LEVANTADO"
+sudo docker-compose ps
 
