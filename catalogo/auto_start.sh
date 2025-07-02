@@ -30,7 +30,7 @@ fi
 echo -e "${GREEN} BASE DE DATOS LEVANTADA"
 echo ""
 
-sleep 3
+sleep 10
 
 echo -e "${YELLOW} LEVANTANDO CATALOGO APP"
 echo ""

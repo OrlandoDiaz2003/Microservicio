@@ -13,9 +13,9 @@ services:
       MYSQL_ROOT_PASSWORD: DuocUc..2025
       MYSQL_PASSWORD: DuocUc..2025
     ports:
-      - "3307:3306"
+      - "3308:3306"
     networks:
-      - app-network
+      - externa
 
   catalogo-app: 
     build: .
@@ -31,8 +31,9 @@ services:
        SPRING_DATASOURCE_PASSWORD: DuocUc..2025
        SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
     networks:
-      - app-network
+      - externa 
 
 networks:
-  app-network:
-    driver: bridge 
+  externa:
+    external: true
+    name: microservicioRed
