@@ -25,12 +25,22 @@ if [ $? -ne 0 ]; then
     echo -e "\033[0;31mError: Fallo al levantar la base de datos. Revisa los logs con 'docker compose logs'${NC}"
     exit 1
 fi
-
+MAX_RETRIES=20
+RETRY=0
+until [[ "$(sudo docker inspect --format='{{.State.Health.Status}}' mysql-db-catalogo)" == "healthy" ]]; do
+    sleep 3
+    ((RETRY++))
+    echo -e "${YELLOW}   Esperando... intento $RETRY/${MAX_RETRIES}${NC}"
+    if [ "$RETRY" -ge "$MAX_RETRIES" ]; then
+        echo -e "${RED}❌ Timeout: MySQL no está healthy luego de $MAX_RETRIES intentos.${NC}"
+        exit 1
+    fi
+done
 
 echo -e "${GREEN} BASE DE DATOS LEVANTADA"
 echo ""
 
-sleep 10
+sleep 3
 
 echo -e "${YELLOW} LEVANTANDO CATALOGO APP"
 echo ""
